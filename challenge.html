@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>EmbodiedBench Challenge @ CVPR 2026</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="website/img/embodied-logo.png" type="image/png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="website/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="website/css/fontawesome.all.min.css">
+  <script defer src="website/javascript/fontawesome.all.min.js"></script>
+  <link rel="stylesheet" href="website/css/index.css">
+
+  <style>
+    .challenge-hero {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 2rem 0;
+    }
+    .challenge-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      background: #fff;
+    }
+    .challenge-card h4 {
+      margin-bottom: 0.5rem;
+      color: #363636;
+    }
+    .data-split-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+    }
+    .data-split-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+    }
+    .data-split-content {
+      flex: 1;
+    }
+    .data-split-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .badge-public { background: #d4edda; color: #155724; }
+    .badge-coming { background: #fff3cd; color: #856404; }
+    .nav-link-challenge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      background: #5e7154;
+      color: white !important;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .nav-link-challenge:hover {
+      background: #4a5d42;
+      color: white !important;
+    }
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .leaderboard-table th,
+    .leaderboard-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .leaderboard-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .leaderboard-table th:hover {
+      background: #e9ecef;
+    }
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9rem;
+    }
+    .rules-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .rules-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: flex-start;
+    }
+    .rules-list li:last-child {
+      border-bottom: none;
+    }
+    .rules-list .rule-icon {
+      margin-right: 0.75rem;
+      color: #5e7154;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="index.html">
+          <img src="website/img/embodied-logo.png" alt="EmbodiedBench" width="40" height="40">
+          <span class="embodiedbench" style="margin-left: 0.5rem; font-size: 1.25rem;">EmbodiedBench</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a href="index.html" class="navbar-item">Home</a>
+        <a href="challenge.html" class="navbar-item has-text-weight-bold" style="color: #5e7154;">Challenge</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="challenge-hero">
+    <div class="container">
+      <div class="has-text-centered">
+        <h1 class="title is-2" style="margin-bottom: 0.5rem;">
+          <img src="website/img/embodied-logo.png" alt="logo" width="60" height="60" style="vertical-align: middle; margin-right: 10px;">
+          <span class="embodiedbench">EmbodiedBench</span> Challenge
+        </h1>
+        <p class="subtitle is-4" style="color: #4a4a4a; margin-top: 0.5rem;">
+          Comprehensive Benchmarking Vision-Driven Embodied Agents
+        </p>
+        <p class="is-size-5" style="margin-top: 1rem;">
+          🏛️ <strong>Hosted by:</strong> <a href="https://foundation-models-meet-embodied-agents.github.io/cvpr2026/" target="_blank">Foundation Models Meet Embodied Agents Workshop</a>, CVPR 2026.
+        </p>
+        <p class="content" style="max-width: 800px; margin: 1rem auto;">
+          We are organizing the <strong>EmbodiedBench Challenge</strong>, a benchmark designed to evaluate Multi-modal Large Language Models (MLLMs) as vision-driven embodied agents. Participants will first be ranked according to open-source benchmark results. The top 5–10 teams will then be ranked on the held-out test set by task success rates across four environments (EB-ALFRED, EB-Habitat, EB-Navigation, EB-Manipulation). More details will be released soon.
+        </p>
+
+        <!-- Quick Links -->
+        <div class="buttons is-centered" style="margin-top: 1.5rem; flex-wrap: wrap;">
+          <a href="#overview" class="button is-dark is-rounded">Challenge Instructions</a>
+          <a href="https://github.com/EmbodiedBench/EmbodiedBench" class="button is-dark is-rounded" target="_blank">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Dataset & Code</span>
+          </a>
+          <a href="https://eval.ai/" class="button is-dark is-rounded" target="_blank">Submit on EvalAI</a>
+        </div>
+
+        <div class="content has-text-centered" style="margin-top: 1rem; font-size: 0.95rem;">
+          <p><strong>Quick Links:</strong></p>
+          <p>
+            <strong>Submission Portal:</strong> <a href="https://eval.ai/" target="_blank">EvalAI</a> (Coming Soon) &nbsp;|&nbsp;
+            <strong>Dataset & Code:</strong> <a href="https://github.com/EmbodiedBench/EmbodiedBench" target="_blank">GitHub</a> &nbsp;|&nbsp;
+            <strong>Dataset:</strong> <a href="https://huggingface.co/EmbodiedBench" target="_blank">Hugging Face</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenge Overview -->
+  <section class="section" id="overview">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Challenge Overview</h2>
+
+      <div class="challenge-card">
+        <h4 class="title is-5">Goal</h4>
+        <p class="content">
+          Given visual observations and language instructions in embodied environments, develop vision-driven agents that can plan and execute tasks. Models will be evaluated on their ability to understand instructions, reason about the environment, and generate executable action sequences across both <strong>high-level tasks</strong> (EB-ALFRED, EB-Habitat) and <strong>low-level tasks</strong> (EB-Navigation, EB-Manipulation).
+        </p>
+      </div>
+
+      <div class="challenge-card">
+        <h4 class="title is-5">What You Do</h4>
+        <ol class="content" style="padding-left: 1.5rem;">
+          <li>Train / fine-tune on the EmbodiedBench training dataset.</li>
+          <li>Develop and validate on the EmbodiedBench.</li>
+          <li>Submit your models through EvalAI; they will be evaluated on a hidden, held-out test set (more instructions coming soon).</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Splits -->
+  <section class="section" id="data">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Data Splits</h2>
+
+      <div class="data-split-card">
+        <div class="data-split-icon">📚</div>
+        <div class="data-split-content">
+          <h4 class="title is-5" style="margin-bottom: 0.25rem;">Train</h4>
+          <p class="content" style="margin-bottom: 0.5rem;">EmbodiedBench training data across four environments</p>
+          <span class="data-split-badge badge-public">Public</span>
+        </div>
+      </div>
+
+      <div class="data-split-card">
+        <div class="data-split-icon">🔬</div>
+        <div class="data-split-content">
+          <h4 class="title is-5" style="margin-bottom: 0.25rem;">Validation</h4>
+          <p class="content" style="margin-bottom: 0.5rem;">EmbodiedBench validation set for development</p>
+          <span class="data-split-badge badge-public">Public</span>
+        </div>
+      </div>
+
+      <div class="data-split-card">
+        <div class="data-split-icon">🏆</div>
+        <div class="data-split-content">
+          <h4 class="title is-5" style="margin-bottom: 0.25rem;">Test (Held-out)</h4>
+          <p class="content" style="margin-bottom: 0.5rem;">Final evaluation set</p>
+          <span class="data-split-badge badge-coming">Coming Soon</span>
+        </div>
+      </div>
+
+      <p class="content">
+        <strong>Dataset:</strong> Data can be found at <a href="https://huggingface.co/EmbodiedBench" target="_blank">huggingface.co/EmbodiedBench</a><br>
+        <strong>Format & loading:</strong> Please refer to the official instructions in the <a href="https://github.com/EmbodiedBench/EmbodiedBench" target="_blank">EmbodiedBench repository</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Evaluation -->
+  <section class="section" id="evaluation">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Evaluation</h2>
+
+      <div class="content">
+        <p><strong>Primary Metrics:</strong></p>
+        <ul>
+          <li><strong>Task Success Rate:</strong> Measures the model's ability to correctly complete embodied tasks in each environment.</li>
+          <li><strong>Overall Score:</strong> Weighted combination of success rates across EB-ALFRED, EB-Habitat, EB-Navigation, and EB-Manipulation.</li>
+        </ul>
+        <p><strong>Capability Subsets:</strong> We may additionally report accuracy by capability category (commonsense reasoning, complex instruction, spatial awareness, visual perception, long-horizon planning) for detailed analysis.</p>
+        <p><strong>Ranking:</strong> Teams are ranked by the overall score on the held-out test set.</p>
+        <p><strong>Tie-break:</strong> Higher score on low-level tasks (EB-Navigation + EB-Manipulation), then earlier submission time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard -->
+  <section class="section" id="leaderboard">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Challenge Leaderboard</h2>
+      <p class="content has-text-centered" style="margin-bottom: 1.5rem;">
+        Performance of submitted methods on the held-out test set. Click on column headers to sort the results.
+      </p>
+
+      <div class="box">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank ↕</th>
+              <th>Team / Method ↕</th>
+              <th>Overall ↕</th>
+              <th>EB-ALFRED ↕</th>
+              <th>EB-Habitat ↕</th>
+              <th>EB-Navigation ↕</th>
+              <th>EB-Manipulation ↕</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>-</td>
+              <td>Baseline</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="has-text-centered" style="color: #888; padding: 2rem;">
+                Challenge submissions coming soon...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="content has-text-centered" style="font-size: 0.9rem; color: #666;">
+        Leaderboard will be updated after the test set is released and submissions are evaluated.
+      </p>
+    </div>
+  </section>
+
+  <!-- Submission -->
+  <section class="section" id="submission">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Submission</h2>
+
+      <div class="challenge-card">
+        <h4 class="title is-5">Submission File Format (JSONL)</h4>
+        <p class="content">Submit a single <code>.jsonl</code> file with one JSON object per line, containing:</p>
+        <ul>
+          <li><code>sample_id</code> (string): Unique identifier for the test sample</li>
+          <li><code>prediction</code> (string or object): Your model's prediction (action sequence or task outcome)</li>
+        </ul>
+        <p class="content" style="margin-top: 1rem;"><strong>Example submission format:</strong></p>
+        <div class="code-block">
+{"sample_id":"eb_000001","prediction":"[PickupObject, PutObject, ...]"}
+{"sample_id":"eb_000002","prediction":"[MoveAhead, TurnLeft, ...]"}
+        </div>
+      </div>
+
+      <div class="challenge-card">
+        <h4 class="title is-5">Requirements</h4>
+        <ul>
+          <li>Provide exactly one prediction for each <code>sample_id</code> in the test set.</li>
+          <li><strong>Duplicate IDs:</strong> Will result in invalid submission.</li>
+          <li><strong>Missing IDs:</strong> Count as incorrect / invalid submission.</li>
+          <li><em>(Recommended)</em> You may gzip the file for size: <code>predictions.jsonl.gz</code></li>
+        </ul>
+      </div>
+
+      <div class="challenge-card">
+        <h4 class="title is-5">How to Submit</h4>
+        <ol>
+          <li>Download the held-out test set (coming soon).</li>
+          <li>Generate your <code>predictions.jsonl</code> following the required format.</li>
+          <li>Name the file as: <code>TeamName_MethodName.jsonl</code> (or <code>.jsonl.gz</code>).</li>
+          <li>Submit via <a href="https://eval.ai/" target="_blank">EvalAI platform</a> (link coming soon).</li>
+        </ol>
+        <p class="content" style="margin-top: 1rem;">
+          <strong>Submission Limit:</strong> Up to 5 submissions per team; best submission counts<br>
+          <strong>Deadline:</strong> TBD<br>
+          <strong>Results Announcement:</strong> TBD
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section class="section" id="rules">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Rules</h2>
+
+      <ul class="rules-list">
+        <li>
+          <span class="rule-icon"><i class="fas fa-check-circle"></i></span>
+          <div>
+            <strong>External data / models / APIs:</strong> Allowed with disclosure. Teams may use external datasets, pre-trained models, or APIs, but must clearly disclose all external resources used in their submission.
+          </div>
+        </li>
+        <li>
+          <span class="rule-icon"><i class="fas fa-times-circle"></i></span>
+          <div>
+            <strong>Human-in-the-loop labeling on test:</strong> Disallowed. Participants must not attempt to obtain test labels or manipulate evaluation.
+          </div>
+        </li>
+        <li>
+          <span class="rule-icon"><i class="fas fa-clipboard-check"></i></span>
+          <div>
+            <strong>Verification:</strong> Top teams may be asked to provide a brief method description and reproducibility details.
+          </div>
+        </li>
+        <li>
+          <span class="rule-icon"><i class="fas fa-users"></i></span>
+          <div>
+            <strong>Team size:</strong> No limit on team size, but each team may only submit under one team name.
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Baselines & Starter Kit -->
+  <section class="section" id="baselines">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Baselines & Starter Kit</h2>
+      <p class="content">
+        Baselines, environment setup, and evaluation scripts are available in the official EmbodiedBench repository:
+      </p>
+      <p class="has-text-centered" style="margin-top: 1rem;">
+        <a href="https://github.com/EmbodiedBench/EmbodiedBench" class="button is-dark" target="_blank">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>github.com/EmbodiedBench/EmbodiedBench</span>
+        </a>
+      </p>
+      <p class="content">
+        <strong>Getting Started:</strong> Check out our baseline implementations and starter code to quickly get up and running with the EmbodiedBench dataset. 
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="title is-3" style="text-align: center; margin-bottom: 2rem;">Contact</h2>
+      <p class="content has-text-centered">
+        For questions, please reach out via:<br><br>
+        <a href="https://github.com/EmbodiedBench/EmbodiedBench/issues" class="button is-dark is-rounded" target="_blank">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>GitHub Issues</span>
+        </a>
+        &nbsp;&nbsp;
+        <a href="https://github.com/EmbodiedBench/EmbodiedBench/discussions" class="button is-dark is-rounded" target="_blank">
+          <span class="icon"><i class="fas fa-comments"></i></span>
+          <span>Discussions</span>
+        </a>
+      </p>
+      <p class="has-text-centered" style="margin-top: 2rem;">
+        <a href="index.html" class="nav-link-challenge">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span>
+          <span>Back to EmbodiedBench Home</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p style="font-size: 0.95rem;">
+        This website is adapted from <a href="https://nerfies.github.io/">Nerfies</a>, licensed under a
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

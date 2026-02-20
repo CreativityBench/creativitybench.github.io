@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>EmbodiedBench: Comprehensive Benchmarking Multi-modal Large Language Models for Vision-Driven Embodied Agents</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="website/img/embodied-logo.png" type="image/png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="website/css/bulma.min.css">
+    <link rel="stylesheet" href="website/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="website/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="website/css/fontawesome.all.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./website/javascript/bulma-carousel.min.js"></script>
+    <script src="./website/javascript/bulma-slider.min.js"></script>
+    <script src="./website/javascript/explorer-index.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bootstrap4.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+    <script defer src="website/javascript/fontawesome.all.min.js"></script>
+    <!-- <script src="website/javascript/peity-vanilla.js"></script> -->
+
+
+    <!-- below we load some js scripts -->
+    <script src="website/javascript/benchmark_table.js" type="module"></script>
+    <script src="website/javascript/benchmark_table_low_level.js" type="module"></script>
+
+    <link rel="stylesheet" href="website/css/index.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7GJ4FYMY9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-C7GJ4FYMY9');
+    </script>
+
+    <!-- MathJax script -->
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/javascript">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+
+    <noscript>
+        <p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101339888ns.gif" /></p>
+    </noscript>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var toggles = document.querySelectorAll('.toggle-section');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+            var content = document.getElementById(toggle.getAttribute('aria-controls'));
+            var toggleIcon = toggle.children[1].children[0];
+            content.classList.toggle('is-active');
+            if (content.classList.contains('is-active')) {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+            });
+        });
+        });
+      </script>
+
+    <style>
+        .collapse-content {
+          display: none;
+          margin-top: 10px;
+        }
+        .collapse-content.is-active {
+          display: block;
+        }
+        /* .toggle-section .icon.is-small {
+          transition: transform 0.3s ease;
+        } */
+        /* .toggle-section .fa-angle-up {
+          transform: rotate(180deg);
+        } */
+      </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="index.html">
+          <img src="website/img/embodied-logo.png" alt="EmbodiedBench" width="40" height="40">
+          <span class="embodiedbench" style="margin-left: 0.5rem; font-size: 1.25rem;">EmbodiedBench</span>
+        </a>
+      </div>
+      <div class="navbar-end">
+        <a href="index.html" class="navbar-item has-text-weight-bold">Home</a>
+        <a href="challenge.html" class="navbar-item" style="color: #5e7154;">Challenge</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Single-line Title with Bulma's .title.is-1 is-bold (centered heading) -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <!-- MAIN TITLE (logo + "EmbodiedBench:") -->
+            <h1 class="title is-1 publication-title is-bold">
+              <img src="website/img/embodied-logo.png"
+                   alt="logo"
+                   style="vertical-align: middle; margin-right: 20px; position: relative; top: -15px; left: 30px"
+                   width="80"
+                   height="80" />
+              <span class="embodiedbench" style="vertical-align: middle">EmbodiedBench</span>
+            </h1>
+
+            <!-- SUBTITLE -->
+            <h2 class="title is-1 publication-title is-bold" style="margin-top:-0.7em; margin-right: 30px; margin-left: 30px;">
+              Comprehensive Benchmarking Multi-modal Large Language Models for Vision-Driven Embodied Agents
+            </h2>
+
+            <!-- Author list -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://yangrui2015.github.io/" target="_blank">Rui Yang</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://openreview.net/profile?id=~Hanyang_Chen3" target="_blank">Hanyang Chen</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://jyzhang1208.github.io/" target="_blank">Junyu Zhang</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/markzihaozhao/" target="_blank">Mark Zhao</a><sup>3*</sup>,
+              </span><br>
+              <span class="author-block">
+                <a href="https://qiancheng0.github.io/">Cheng Qian</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://jameskrw.github.io/">Kangrui Wang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://qinengwang-aiden.github.io/">Qineng Wang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/teja-koripella/">Teja Venkat Koripella</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/marziyeh-movahedi-439b7284/" target="_blank">Marziyeh Movahedi</a><sup>4</sup>,
+              </span><br>
+              <span class="author-block">
+                <a href="https://limanling.github.io/">Manling Li</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://blender.cs.illinois.edu/hengji.html">Heng Ji</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.huan-zhang.com/">Huan Zhang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://tongzhang-ml.org/">Tong Zhang</a><sup>1</sup>
+              </span>
+            </div>
+            <div class="is-size-5 publication-authors" style="margin-top:1em;">
+              <span class="author-block"><sup>1</sup>University of Illinois Urbana-Champaign,</span>
+              <span class="author-block"><sup>2</sup>Northwestern University,</span>
+              <span class="author-block"><sup>3</sup>University of Toronto,</span>
+              <span class="author-block"><sup>4</sup>Toyota Technological Institute at Chicago</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>*</sup>Equal contribution</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block" style="color:rgb(192, 54, 54);"><b>ICML 2025 Oral</b></span>
+            </div>
+            <div class="is-size-5 publication-authors" style="margin-top:0.8em;">
+              <a href="https://foundation-models-meet-embodied-agents.github.io/cvpr2026/" target="_blank" style="color:#d35400; font-weight:bold; text-decoration:none; background:linear-gradient(135deg, #fff5eb 0%, #ffe4cc 100%); padding:0.4em 0.8em; border-radius:6px; border:1px solid #e67e22; display:inline-block;">
+                🔥 EmbodiedBench will be used for <b>CVPR 2026 Workshop on Foundation Models Meet Embodied Agents (FMEA) Challenges</b>! Stay tuned.
+              </a>
+            </div>
+
+            <!-- Links -->
+            <div class="column has-text-centered" style="margin-top:1.5em;">
+              <span class="link-block">
+                <a href="challenge.html" class="external-link button is-normal is-rounded is-dark" style="background: #5e7154; border-color: #5e7154;">
+                  <span class="icon">
+                    <i class="fas fa-trophy"></i>
+                  </span>
+                  <span>Challenge</span>
+                </a>&nbsp;&nbsp;
+              </span>
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/2502.09560" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>&nbsp;&nbsp;
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/EmbodiedBench/EmbodiedBench" class="external-link button is-normal is-rounded is-dark" role="button" target="_blank">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a> &nbsp;&nbsp;
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/EmbodiedBench"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon" style="display: flex; align-items: center; height: 100%;">
+                      <p style="font-size:18px; margin: 0;">🤗</p>
+                  </span>
+                  <span>Dataset</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser Video -->
+  <!-- <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body" style="padding-top:1rem;">
+        <video id="teaser" autoplay muted loop playsinline controls width="100%">
+          <source src="https://github.com/embodied-agent-eval/embodied-agent-eval.github.io/raw/main/website/videos/eai-0-overview.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Short videos (Goal Interpretation, etc.) -->
+  <section class="section" style="padding-top:0.5rem;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <!-- <h3 class="title is-5">Goal Interpretation</h3> -->
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_success_mani.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="column">
+          <!-- <h3 class="title is-5">Subgoal Decomposition</h3> -->
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_success_nav.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:1em; color:rgb(99, 95, 95); margin-top:0.7rem; margin-bottom:1rem; line-height: 1.55; font-size: 1.2rem;">
+        <b><span style="color: rgb(53, 131, 53); font-size: 1.2rem;">Successful</span> Examples in EmbodiedBench powered by GPT-4o: EB-Manipulation (left) and EB-Navigation (right).</b> 
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0rem;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <!-- <h3 class="title is-5">Goal Interpretation</h3> -->
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_failure_mani.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="column">
+          <!-- <h3 class="title is-5">Subgoal Decomposition</h3> -->
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_failure_nav.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:1em; color:rgb(99, 95, 95); margin-top:0.7rem; margin-bottom:1rem; line-height: 1.55; font-size: 1.2rem;">
+        <b><span style="color: rgb(187, 75, 62); font-size: 1.2rem;">Failure</span> Examples in EmbodiedBench powered by GPT-4o: EB-Manipulation (left) and EB-Navigation (right).</b> 
+      </p>
+    </div>
+  </section>
+
+  <!-- Single-Paragraph Abstract Section -->
+  <!-- <section class="section" id="abstract">
+    <div class="container" style="max-width: 85%; font-size: 1.0em; margin: 0 auto; line-height: 1.55;">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+      <h2 class="title is-3">Introduction</h2>
+      <div class="content has-text-justified">
+            <p style="text-align:justify; color:rgb(31, 30, 30);">
+              Leveraging Multi-modal Large Language Models (MLLMs) to create <b>vision-driven embodied agents</b>
+              offers a promising avenue for tackling real-world tasks. While language-centric embodied agents have
+              garnered substantial attention, MLLM-based embodied agents remain underexplored due to the lack of
+              comprehensive evaluation frameworks. To bridge this gap, we introduce <b>EmbodiedBench</b>, an
+              extensive benchmark designed to evaluate vision-driven embodied agents. EmbodiedBench features:
+              (1) <b>a diverse set of 1,128 testing tasks across four environments</b>, ranging from high-level semantic
+              tasks (e.g., household) to low-level tasks involving atomic actions (e.g., navigation and manipulation);
+              and (2) <b>six meticulously curated subsets evaluating essential agent capabilities</b> like common sense
+              reasoning, complex instruction following, spatial awareness, visual perception, and long-term planning.
+              Through extensive experiments, we evaluate 13 leading proprietary and open-source MLLMs within
+              EmbodiedBench. Our findings reveal that: MLLMs excel at high-level tasks but struggle with low-level
+              manipulation, with the best model, GPT-4o, scoring only on average. EmbodiedBench provides a
+              standardized, multifaceted evaluation platform that not only highlights existing challenges
+              but also offers valuable insights for advancing MLLM-based embodied agents.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Overview Section -->
+  <section class="section" id="overview" style="padding-top:1.5rem;">
+    <div class="container" style="max-width: 80%; margin: 0 auto;">
+      <h2 class="title is-3" style="text-align:center; margin-bottom:1rem; font-size: 2.3em;">Overview</h2>
+      <br>
+      <div class="content has-text-justified" style="max-width: 95%; font-size: 1.2em; margin: 0 auto; line-height: 1.55;">
+        <p style="text-align:justify; color:rgb(31, 30, 30);">
+          We introduce <b>EmbodiedBench</b>, a comprehensive benchmark designed to evaluate <b>Multi-modal Large Language Models (MLLMs) as embodied agents</b>. 
+          While existing benchmarks have primarily focused on Large Language Models (LLMs) and high-level tasks, EmbodiedBench takes a leap forward by offering a comprehensive, 
+          fine-grained evaluation of MLLM-based agents across both <b>high-level and low-level tasks</b>, as well as <b>six critical agent capabilities</b>.
+        </p>
+        <p style="text-align:justify; color:rgb(31, 30, 30);">
+          EmbodiedBench is more than just a benchmark-it's a <b>multifaceted, 
+          standardized evaluation platform</b> that not only uncovers the current challenges in embodied AI but also provides actionable insights to push the boundaries of MLLM-driven embodied intelligence.
+        </p>
+      </div>
+
+      <!-- Figure 1 -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-eight-fifths">
+          <figure class="table-figure">
+            <img class="figure-image" src="website/img/framework_overview.png" alt="Figure 1. Overview of EMBODIEDBENCH." style="max-width: 95%; text-align:center; margin-bottom:1rem;"/>
+            <figcaption class="figure-caption" style="font-size: 1.1em;">
+              <b>Figure 1.</b> Overview of EmbodiedBench. Two key features of our benchmark: various action levels and capability-oriented evaluation.
+            </figcaption>
+          </figure>
+
+          <p style="text-align:justify; color:rgb(31, 30, 30); margin-top:1rem; margin-bottom:1rem; line-height: 1.55; max-width: 95%; margin: 0 auto; font-size: 1.2em;">
+            EmbodiedBench is designed with two key features that set it apart from existing benchmarks:
+            <b>1. Diverse tasks with hierarchical action levels.</b> Among the four environments, <b>EB-ALFRED</b> and <b>EB-Habitat</b> focus on high-level task decomposition and planning (e.g., <i>"put a book on the desk"</i> ), 
+            while <b>EB-Navigation</b> and <b>EB-Manipulation</b> demand planning with low-level actions (e.g., <i>translational/rotational control</i> ) and require precise perception and spatial reasoning. 
+            <b>2. Capability-oriented evaluation.</b> Unlike previous benchmarks that primarily emphasize overall accuracy or module-specific performance, 
+            EmbodiedBench introduces a fine-grained evaluation framework that assesses six critical capabilities of embodied agents, including <b>basic task solving</b>, <b>commonsense reasoning</b>, <b>complex instruction understanding</b>, <b>spatial awareness</b>, <b>visual perception</b>, and <b>long-horizon planning</b>. 
+          </p>
+        </div>
+      </div>
+
+      <!-- Figure 2 -->
+      <br>
+      <br>
+      <h2 class="title is-3" style="text-align:center; margin-bottom: 2.5rem; font-size: 2.3em;">Agent Pipeline</h2>
+      <div class="columns is-centered has-text-centered" style="margin-top:2em;">
+        <div class="column is-eight-fifths">
+          <figure class="table-figure">
+            <img class="figure-image" src="website/img/planner_pipeline.png" alt="Figure 2. Vision-driven agent pipeline used in EMBODIEDBENCH." style="max-width: 98%; margin: 0 auto; margin-bottom:1rem;" />
+            <figcaption class="figure-caption" style="font-size: 1.1em;">
+              <b>Figure 2.</b> Vision-driven agent pipeline used in EmbodiedBench.
+            </figcaption>
+          </figure>
+
+          <p style="text-align:justify; margin-top:1em;  margin-bottom:1rem; line-height: 1.55; max-width: 95%; font-size: 1.2em; margin: 0 auto; color:rgb(31, 30, 30);">
+            To evaluate MLLMs as agents in EmbodiedBench, we design a unified embodied agent pipeline, illustrated in Figure 2. 
+            This pipeline provides a robust framework for processing multimodal inputs, reasoning through interactions, and generating structured, executable plans composed of sequential actions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard and Findings Section -->
+  <section class="section" id="leaderboard-findings" style="padding-top:1.5rem;">
+    <div class="container" style="max-width: 85%">
+      <h2 class="title is-3" style="text-align:center; margin-bottom:3rem; font-size: 2.3em;">Leaderboard</h2>
+      <h3 class="title is-4" style="text-align:center; margin-bottom:1rem; font-size: 1.7em;">High-Level Tasks</h3>
+        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+          <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="eb-alfred-tab" data-bs-toggle="tab"
+                  data-bs-target="#eb-alfred-content" type="button" role="tab"
+                  aria-controls="eb-alfred-content" aria-selected="true" style="font-size: 1.1em;">EB-ALFRED</button>
+          </li>
+          <li class="nav-item" role="presentation">
+              <button class="nav-link" id="eb-habitat-tab" data-bs-toggle="tab"
+                  data-bs-target="#eb-habitat-content" type="button" role="tab"
+                  aria-controls="eb-habitat-content" aria-selected="false" style="font-size: 1.1em;">EB-Habitat</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="eb-alfred-content" role="tabpanel"
+              aria-labelledby="eb-alfred-tab">
+              <div id="eb-alfred-benchmark-main-table"></div>
+          </div>
+          <div class="tab-pane fade" id="eb-habitat-content" role="tabpanel"
+              aria-labelledby="eb-habitat-tab">
+              <div id="eb-habitat-benchmark-main-table"></div>
+          </div>
+        </div>
+        <br>
+        <br>
+
+        <h3 class="title is-4" style="text-align:center; margin-bottom:1rem; font-size: 1.7em;">Low-Level Tasks</h3>
+        <ul class="nav nav-tabs" id="myTab2" role="tablist">
+          <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="main-results-tab" data-bs-toggle="tab"
+                  data-bs-target="#benchmark-table-content" type="button" role="tab"
+                  aria-controls="main-results-tab" aria-selected="true" style="font-size: 1.1em;">EB-Navigation</button>
+          </li>
+          <li class="nav-item" role="presentation">
+              <button class="nav-link" id="eurus-code-table-tab" data-bs-toggle="tab"
+                  data-bs-target="#eurus-code-table-content" type="button" role="tab"
+                  aria-controls="eurus-code-table-tab" aria-selected="false" style="font-size: 1.1em;">EB-Manipulation</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
+              aria-labelledby="benchmark-table-content">
+              <div id="eb-navigation-benchmark-main-table"></div>
+          </div>
+          <div class="tab-pane fade" id="eurus-code-table-content" role="tabpanel"
+              aria-labelledby="eurus-code-table-content">
+              <div id="eb-manipulation-benchmark-main-table"></div>
+          </div>
+        </div>
+  <br>
+  <section class="section" id="overview" style="padding-top:4rem;">
+      <div class="container" style="max-width: 95%; font-size: 1.0em; margin: 0 auto; line-height: 1.55;">
+        <h2 class="title is-3" style="text-align:center; margin-bottom: 2.8rem; font-size: 2.3em;">Error Analysis</h2>
+        <p style="text-align:justify; margin-top:1em; color:rgb(31, 30, 30); margin-top:1.7rem; margin-bottom:1rem; line-height: 1.55; font-size: 1.2em;" >
+          In this section, We conducted an error analysis on GPT-4o to identify potential failure modes. 
+          For each environment, we sample 10 failure episodes from each subset, resulting in a total of 110 failed episodes to be analyzed. 
+          We found three main types of errors: perception errors, reasoning errors, and planning errors.
+          Each error type corresponds to a specific stage in our agent pipeline. 
+          For example, perception errors occur during the visual state description stage, reasoning errors arise in the reflection and reasoning stages, and planning errors occur during the language plan and executable plan generation stages.
+        </p>
+
+      <figure class="table-figure" style="margin-top:1em; max-width: 90%; margin: 0 auto;">
+        <img class="figure-image" src="website/img/error_analysis.png" alt="Figure 3. Error Analysis." />
+        <figcaption class="figure-caption" style="text-align: center; font-size: 1.1em;">
+          <b>Figure 3.</b> Error Analysis.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Case Study -->
+  <section class="section" id="case-study" style="padding-top:2rem;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3" style="text-align:center; margin-bottom:1rem; font-size: 2.3em;">Case Study</h2>
+      <br>
+      <!-- Success Carousel -->
+        <h3 class="title is-4" style="text-align:center; margin-bottom:-0.1rem; font-size: 1.7em;">Success Examples</h3>
+        <div id="results-carousel" class="carousel results-carousel" style="margin-bottom: 2rem;">
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/success_alfred_claude.png" alt="" width="75%"/>
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 4.</b> Planning example of Claude-3.5-Sonnet in EB-ALFRED.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/success_habitat_internvl.png" alt="" width="75%"/>
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 5.</b> Planning example in EB-Habitat for InternVL2.5-78B.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/success_nav_gpt4o.png" alt="" width="75%" />
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 6.</b> Planning example of GPT-4o in EB-Navigation.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/success_mani_gemini.png" alt="" width="75%" />
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 7.</b> Planning example of Gemini-1.5-pro in EB-Manipulation.
+                </p>
+              </div>
+            </div>
+        </div>
+
+        <!-- Failure Carousel -->
+        <br>
+        <h3 class="title is-4" style="text-align:center; margin-top: 2rem; margin-bottom:-0.1rem; font-size: 1.7em;">Failure Examples</h3>
+        <div id="results-carousel" class="carousel results-carousel" data-autoplay="true" data-pagination="false">
+          <div class="box mx-auto my-4" style="max-width: 90%;">
+            <div class="content has-text-centered" style="margin-bottom: 2rem;">
+              <img src="website/img/planning_error_alfred.png" alt="" width="70%"/>
+              <p class="image-subtitle" style="font-size: 1.1em; margin-top: 2rem; max-width: 70%; margin: auto;">
+                <b>Figure 8.</b> Planning Error Example in EB-ALFRED: The agent was supposed to locate "Book_2" by the 7th action but instead continued
+                interacting with the first book.
+              </p>
+            </div>
+          </div>
+          <div class="box mx-auto my-4" style="max-width: 90%;">
+            <div class="content has-text-centered" style="margin-bottom: 2rem;">
+              <img src="website/img/perception_error_mani.png" alt="" width="70%" style="margin-bottom: 1rem;"/>
+              <p class="image-subtitle" style="font-size: 1.1em; max-width: 70%; margin: auto;">
+                <b>Figure 9.</b> Perception Error Example in EB-Manipulation: the agent erroneously observed the color of the object.
+              </p>
+            </div>
+          </div>
+          <div class="box mx-auto my-4" style="max-width: 90%;">
+            <div class="content has-text-centered" style="margin-bottom: 2rem;">
+              <img src="website/img/reasoning_error_nav.png" alt="" width="70%"  style="margin-bottom: 1rem;"/>
+              <p class="image-subtitle" style="font-size: 1.1em; max-width: 70%; margin: auto;">
+                <b>Figure 10.</b> Reasoning Error Example in EB-Navigation: the agent recognized it was blocked by the countertop but failed to attempt
+                navigating around it.
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- BibTeX Section -->
+  <section class="section" id="BibTeX" style="padding-top:1.5rem;">
+    <div class="container is-max-desktop content" style="max-width: 95%; margin: 0 auto;">
+      <h2 class="title is-3" style="text-align:center; font-size: 2.3em;">BibTeX</h2>
+      <pre style="font-size: 1.0em;">
+        @article{yang2025embodiedbench,
+          title={EmbodiedBench: Comprehensive Benchmarking Multi-modal Large Language Models for Vision-Driven Embodied Agents},
+          author={Yang, Rui and Chen, Hanyang and Zhang, Junyu and Zhao, Mark and Qian, Cheng and Wang, Kangrui and Wang, Qineng and Koripella, Teja Venkat and Movahedi, Marziyeh and Li, Manling and others},
+          journal={arXiv preprint arXiv:2502.09560},
+          year={2025}
+        }
+      </pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="section" id="org-banners" style="display:flex; margin-bottom: -3rem; margin-left: 3rem; margin-right: 3rem;">
+      <a href="https://illinois.edu/" target="_blank" rel="external" style="display: block; margin: auto;">
+          <img class="center-block org-banner" src="website/img/uiuc.webp" style="width: 350px; height: auto; display: block; margin: auto;">
+      </a>
+      <a href="https://www.northwestern.edu/" target="blank" class="ext-link" style="display: block; margin: auto;">
+          <img class="center-block org-banner" src="website/img/northwestern.png" style="width: 390px; height: auto; display: block; margin: auto;">
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section" id="org-banners" style="display:flex; margin-top: -3rem; margin-left: 3rem; margin-right: 3rem;">
+      <a href="https://www.utoronto.ca/" target="blank" class="ext-link" style="display: block; margin: auto;">
+        <img class="center-block org-banner" src="website/img/toronto.png" style="width: 330px; height: auto; display: block; margin: auto;">
+      </a>
+      <a href="https://www.utoronto.ca/" target="blank" class="ext-link" style="display: block; margin: auto;">
+        <img class="center-block org-banner" src="website/img/ttic.jpg" style="width: 350px; height: auto; display: block; margin: auto;">
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <!-- <div class="content has-text-centered"> -->
+    <div class="columns is-centered">
+        <div class="column is-9">
+          <div class="content">
+          <p style="font-size: 1.15em;">
+            This website is adapted from 
+            <a href="https://nerfies.github.io/" style="text-decoration: none;">Nerfies</a>, licensed under a 
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" style="text-decoration: none;">
+              Creative Commons Attribution-ShareAlike 4.0 International License
+            </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</footer>
+
+
+</body>
+</html>
