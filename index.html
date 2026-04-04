@@ -196,25 +196,10 @@
             <div class="is-size-5 publication-authors">
               <span class="author-block"><sup>*</sup>Equal contribution</span>
             </div>
-            <!-- <div class="is-size-5 publication-authors">
-              <span class="author-block" style="color:rgb(192, 54, 54);"><b>ICML 2025 Oral</b></span>
-            </div> -->
-            <!-- <div class="is-size-5 publication-authors" style="margin-top:0.8em;">
-              <a href="https://foundation-models-meet-embodied-agents.github.io/cvpr2026/" target="_blank" style="color:#d35400; font-weight:bold; text-decoration:none; background:linear-gradient(135deg, #fff5eb 0%, #ffe4cc 100%); padding:0.4em 0.8em; border-radius:6px; border:1px solid #e67e22; display:inline-block;">
-                🔥 EmbodiedBench will be used for <b>CVPR 2026 Workshop on Foundation Models Meet Embodied Agents (FMEA) Challenges</b>! Stay tuned.
-              </a>
-            </div> -->
-
+           
             <!-- Links -->
             <div class="column has-text-centered" style="margin-top:1.5em;">
-              <!-- <span class="link-block">
-                <a href="challenge.html" class="external-link button is-normal is-rounded is-dark" style="background: #5e7154; border-color: #5e7154;">
-                  <span class="icon">
-                    <i class="fas fa-trophy"></i>
-                  </span>
-                  <span>Challenge</span>
-                </a>&nbsp;&nbsp;
-              </span> -->
+              
               <span class="link-block">
                 <a href="http://arxiv.org/abs/2502.09560" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -247,88 +232,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Teaser Video -->
-  <!-- <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body" style="padding-top:1rem;">
-        <video id="teaser" autoplay muted loop playsinline controls width="100%">
-          <source src="https://github.com/embodied-agent-eval/embodied-agent-eval.github.io/raw/main/website/videos/eai-0-overview.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </section> -->
-
-  <!-- Short videos (Goal Interpretation, etc.) -->
-  <!-- <section class="section" style="padding-top:0.5rem;">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column">
-          <video autoplay muted loop playsinline controls width="100%">
-            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_success_mani.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="column">
-          <video autoplay muted loop playsinline controls width="100%">
-            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_success_nav.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <p style="text-align:center; margin-top:1em; color:rgb(99, 95, 95); margin-top:0.7rem; margin-bottom:1rem; line-height: 1.55; font-size: 1.2rem;">
-        <b><span style="color: rgb(53, 131, 53); font-size: 1.2rem;">Successful</span> Examples in EmbodiedBench powered by GPT-4o: EB-Manipulation (left) and EB-Navigation (right).</b> 
-      </p>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0rem;">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column">
-          <video autoplay muted loop playsinline controls width="100%">
-            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_failure_mani.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="column">
-          <video autoplay muted loop playsinline controls width="100%">
-            <source src="https://github.com/EmbodiedBench/embodiedbench.github.io/raw/main/website/videos/example_failure_nav.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <p style="text-align:center; margin-top:1em; color:rgb(99, 95, 95); margin-top:0.7rem; margin-bottom:1rem; line-height: 1.55; font-size: 1.2rem;">
-        <b><span style="color: rgb(187, 75, 62); font-size: 1.2rem;">Failure</span> Examples in EmbodiedBench powered by GPT-4o: EB-Manipulation (left) and EB-Navigation (right).</b> 
-      </p>
-    </div>
-  </section> -->
-
-  <!-- Single-Paragraph Abstract Section -->
-  <!-- <section class="section" id="abstract">
-    <div class="container" style="max-width: 85%; font-size: 1.0em; margin: 0 auto; line-height: 1.55;">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-      <h2 class="title is-3">Introduction</h2>
-      <div class="content has-text-justified">
-            <p style="text-align:justify; color:rgb(31, 30, 30);">
-              Leveraging Multi-modal Large Language Models (MLLMs) to create <b>vision-driven embodied agents</b>
-              offers a promising avenue for tackling real-world tasks. While language-centric embodied agents have
-              garnered substantial attention, MLLM-based embodied agents remain underexplored due to the lack of
-              comprehensive evaluation frameworks. To bridge this gap, we introduce <b>EmbodiedBench</b>, an
-              extensive benchmark designed to evaluate vision-driven embodied agents. EmbodiedBench features:
-              (1) <b>a diverse set of 1,128 testing tasks across four environments</b>, ranging from high-level semantic
-              tasks (e.g., household) to low-level tasks involving atomic actions (e.g., navigation and manipulation);
-              and (2) <b>six meticulously curated subsets evaluating essential agent capabilities</b> like common sense
-              reasoning, complex instruction following, spatial awareness, visual perception, and long-term planning.
-              Through extensive experiments, we evaluate 13 leading proprietary and open-source MLLMs within
-              EmbodiedBench. Our findings reveal that: MLLMs excel at high-level tasks but struggle with low-level
-              manipulation, with the best model, GPT-4o, scoring only on average. EmbodiedBench provides a
-              standardized, multifaceted evaluation platform that not only highlights existing challenges
-              but also offers valuable insights for advancing MLLM-based embodied agents.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 
   <!-- Overview Section -->
   <section class="section" id="overview" style="padding-top:1.5rem;">

@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         var cb_table = new Tabulator("#creativitybench-benchmark-main-table", {
-            data: creativitybench_data,
+            data: creativitybench_data.filter(row => row.model !== "Average"),
             layout: "fitColumns",
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return div;
                 }
             },
-            columns: [{ title: "", field: "order", visible: false, headerSort: false }, ...cb_columns]
+            columns: [{ title: "", field: "order", visible: false, headerSort: false, sorter: "number" }, ...cb_columns]
         });
     });
 })
