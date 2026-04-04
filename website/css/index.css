@@ -212,7 +212,21 @@ span {
 
 
 .tabulator-header .tabulator-col {
-  text-align:center;
+  text-align: center;
+  white-space: normal !important;
+  height: auto !important;
+}
+
+.tabulator-header .tabulator-col .tabulator-col-content {
+  white-space: normal !important;
+  height: auto !important;
+  padding: 8px 4px;
+}
+
+.tabulator-header .tabulator-col .tabulator-col-title {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
 }
 
 /* body {

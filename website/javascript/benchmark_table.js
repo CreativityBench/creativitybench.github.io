@@ -341,18 +341,10 @@ document.addEventListener('DOMContentLoaded', function () {
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
             movableColumns: false,
-            initialSort: [
-                { column: "gold_correct", dir: "desc" },
-            ],
             columnDefaults: {
                 tooltip: true,
             },
-            columns: cb_columns.map(column => {
-                if (column.field === "gold_correct") {
-                    return { ...column, sorter: "number" };
-                }
-                return column;
-            })
+            columns: cb_columns
         });
     });
 })
