@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ];
 
         cb_columns.forEach(column => {
-            if (column.field !== "model") {
+            if (column.field !== "model" && column.field !== "order") {
                 let { min, max } = getColumnMinMax(creativitybench_data, column.field);
                 column.formatterParams = { min, max };
             }
@@ -341,10 +341,21 @@ document.addEventListener('DOMContentLoaded', function () {
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
             movableColumns: false,
+            initialSort: [
+                { column: "order", dir: "asc" },
+            ],
             columnDefaults: {
                 tooltip: true,
+                titleFormatter: function(cell) {
+                    var div = document.createElement("div");
+                    div.style.whiteSpace = "normal";
+                    div.style.wordBreak = "break-word";
+                    div.style.textAlign = "center";
+                    div.innerHTML = cell.getValue();
+                    return div;
+                }
             },
-            columns: cb_columns
+            columns: [{ title: "", field: "order", visible: false }, ...cb_columns]
         });
     });
 })

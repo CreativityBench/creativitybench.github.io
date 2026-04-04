@@ -1,5 +1,6 @@
 [
   {
+    "order": 1,
     "model": "GPT-5.2",
     "group": "Closed-Source",
     "gold_correct": 0.1819,
@@ -12,6 +13,7 @@
     "prediction_correctness": 3.8696
   },
   {
+    "order": 2,
     "model": "GPT-5 Mini",
     "group": "Closed-Source",
     "gold_correct": 0.1687,
@@ -24,6 +26,7 @@
     "prediction_correctness": 3.8704
   },
   {
+    "order": 3,
     "model": "GPT-5 Nano",
     "group": "Closed-Source",
     "gold_correct": 0.1192,
@@ -36,6 +39,7 @@
     "prediction_correctness": 2.8230
   },
   {
+    "order": 4,
     "model": "Gemini-2.5-Pro",
     "group": "Closed-Source",
     "gold_correct": 0.1670,
@@ -48,6 +52,7 @@
     "prediction_correctness": 3.0495
   },
   {
+    "order": 5,
     "model": "Gemini-2.5-Flash",
     "group": "Closed-Source",
     "gold_correct": 0.1532,
@@ -60,6 +65,7 @@
     "prediction_correctness": 3.4606
   },
   {
+    "order": 6,
     "model": "Qwen3-32B",
     "group": "Open-Source",
     "gold_correct": 0.2588,
@@ -72,6 +78,7 @@
     "prediction_correctness": 2.6451
   },
   {
+    "order": 7,
     "model": "Qwen3-14B",
     "group": "Open-Source",
     "gold_correct": 0.2483,
@@ -84,6 +91,7 @@
     "prediction_correctness": 2.7441
   },
   {
+    "order": 8,
     "model": "Qwen3-4B",
     "group": "Open-Source",
     "gold_correct": 0.1882,
@@ -96,6 +104,7 @@
     "prediction_correctness": 2.4838
   },
   {
+    "order": 9,
     "model": "Llama-3-70B",
     "group": "Open-Source",
     "gold_correct": 0.2151,
@@ -108,6 +117,7 @@
     "prediction_correctness": 2.7180
   },
   {
+    "order": 10,
     "model": "Ministral-3-14B",
     "group": "Open-Source",
     "gold_correct": 0.2091,
@@ -120,6 +130,7 @@
     "prediction_correctness": 2.6627
   },
   {
+    "order": 11,
     "model": "Average",
     "group": "Average",
     "gold_correct": 0.1910,

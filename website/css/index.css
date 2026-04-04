@@ -28,6 +28,12 @@ span {
   color: #5e7154;
 }
 
+.creativitybench {
+  font-variant: small-caps;
+  font-weight: bold;
+  color: #c85a00;
+}
+
 
 .teaser .hero-body {
   padding-top: 0;
@@ -213,20 +219,22 @@ span {
 
 .tabulator-header .tabulator-col {
   text-align: center;
-  white-space: normal !important;
+}
+
+.tabulator .tabulator-header {
   height: auto !important;
 }
 
-.tabulator-header .tabulator-col .tabulator-col-content {
-  white-space: normal !important;
+.tabulator-col-title-holder,
+.tabulator-col-content {
   height: auto !important;
-  padding: 8px 4px;
 }
 
-.tabulator-header .tabulator-col .tabulator-col-title {
+.tabulator-col-title {
   white-space: normal !important;
   overflow: visible !important;
-  text-overflow: clip !important;
+  text-overflow: unset !important;
+  word-break: break-word;
 }
 
 /* body {
