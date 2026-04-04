@@ -229,6 +229,7 @@ span {
   overflow: visible !important;
   text-overflow: unset !important;
   word-break: break-word;
+  font-size: 0.82em;
 }
 
 /* body {

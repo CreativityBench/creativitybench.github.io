@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 110,
-                headerSort: true,
+
                 formatter: colorFormatterFloat4
             },
             {
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 110,
-                headerSort: true,
+
                 formatter: colorFormatterFloat4
             },
             {
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 100,
-                headerSort: true,
+
                 formatter: colorFormatterSubgoal
             },
             {
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 100,
-                headerSort: true,
+
                 formatter: colorFormatterActionSeq
             },
             {
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 100,
-                headerSort: true,
+
                 formatter: colorFormatterTrans
             },
             {
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 130,
-                headerSort: true,
+
                 formatter: colorFormatterGoalInt
             },
             {
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 120,
-                headerSort: true,
+
                 formatter: colorFormatterSubgoal
             },
             {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cssClass: "avg-column",
                 hozAlign: "center",
                 minWidth: 140,
-                headerSort: true,
+
                 formatter: colorFormatterActionSeq
             }
         ];
@@ -341,21 +341,20 @@ document.addEventListener('DOMContentLoaded', function () {
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
             movableColumns: false,
-            initialSort: [
-                { column: "order", dir: "asc" },
-            ],
             columnDefaults: {
                 tooltip: true,
+                headerSort: false,
                 titleFormatter: function(cell) {
                     var div = document.createElement("div");
                     div.style.whiteSpace = "normal";
                     div.style.wordBreak = "break-word";
                     div.style.textAlign = "center";
+                    div.style.fontSize = "0.82em";
                     div.innerHTML = cell.getValue();
                     return div;
                 }
             },
-            columns: [{ title: "", field: "order", visible: false }, ...cb_columns]
+            columns: cb_columns
         });
     });
 })
