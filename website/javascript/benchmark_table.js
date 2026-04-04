@@ -235,85 +235,125 @@ var colorFormatterFloat4 = function (cell, formatterParams) {
     return "<span style='display:block;width:100%;height:100%;font-size:1.0em;background-color:rgb(" + red + "," + green + "," + blue + ");'>" + display + "</span>";
 };
 
-fetch('website/data/creativitybench_total_benchmark.json')
-    .then(function (response) { return response.json(); })
-    .then(function (data) {
-        var getColumnMinMax = function (field) {
-            var values = data
-                .filter(function (item) { return item.group !== "Average"; })
-                .map(function (item) { return item[field]; })
-                .filter(function (val) { return val !== "-" && val != null; })
-                .map(Number);
-            return { min: Math.min.apply(null, values), max: Math.max.apply(null, values) };
-        };
-
-        var toolUsageEnd   = { r: 162, g: 196, b: 170 };
-        var constraintEnd  = { r: 181, g: 192, b: 208 };
-        var groundingEnd   = { r: 245, g: 232, b: 221 };
-        var feasibilityEnd = { r: 238, g: 211, b: 217 };
-        var predictionEnd  = { r: 204, g: 211, b: 202 };
-
-        var makeCol = function (title, field, endColor) {
-            var minMax = getColumnMinMax(field);
-            return {
-                title: title,
-                field: field,
-                cssClass: "avg-column",
-                hozAlign: "center",
-                minWidth: 110,
-                headerSort: true,
-                sorter: "number",
-                formatter: colorFormatterFloat4,
-                formatterParams: { min: minMax.min, max: minMax.max, startColor: { r: 255, g: 255, b: 255 }, endColor: endColor }
-            };
+document.addEventListener('DOMContentLoaded', function () {
+    Promise.all([
+        fetch('website/data/creativitybench_total_benchmark.json').then(response => response.json()),
+    ])
+    .then(([creativitybench_data]) => {
+        var getColumnMinMax = (data, field) => {
+            let values = data.map(item => item[field]).filter(val => val !== "-").map(Number);
+            return { min: Math.min(...values), max: Math.max(...values) };
         };
 
         var cb_columns = [
             {
                 title: "Model",
                 field: "model",
-                cssClass: "avg-column cb-model-col",
+                cssClass: "avg-column",
                 widthGrow: 1.5,
                 minWidth: 180,
                 headerSort: true
             },
             {
-                title: "Tool Usage",
-                columns: [
-                    makeCol("Gold Correct",   "gold_correct",   toolUsageEnd),
-                    makeCol("Entity Correct", "entity_correct", toolUsageEnd)
-                ]
+                title: "Gold Correct",
+                field: "gold_correct",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 110,
+                headerSort: true,
+                formatter: colorFormatterFloat4
             },
             {
-                title: "Constraint Coverage",
-                columns: [
-                    makeCol("Use (Cu)",   "constraint_use",  constraintEnd),
-                    makeCol("Env. (Ce)",  "constraint_env",  constraintEnd),
-                    makeCol("Rcpt. (Cr)", "constraint_rcpt", constraintEnd)
-                ]
+                title: "Entity Correct",
+                field: "entity_correct",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 110,
+                headerSort: true,
+                formatter: colorFormatterFloat4
             },
-            makeCol("Physical Grounding",     "physical_grounding",     groundingEnd),
-            makeCol("Action Feasibility",     "action_feasibility",     feasibilityEnd),
-            makeCol("Prediction Correctness", "prediction_correctness", predictionEnd)
+            {
+                title: "Use (Cu)",
+                field: "constraint_use",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 100,
+                headerSort: true,
+                formatter: colorFormatterSubgoal
+            },
+            {
+                title: "Env. (Ce)",
+                field: "constraint_env",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 100,
+                headerSort: true,
+                formatter: colorFormatterActionSeq
+            },
+            {
+                title: "Rcpt. (Cr)",
+                field: "constraint_rcpt",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 100,
+                headerSort: true,
+                formatter: colorFormatterTrans
+            },
+            {
+                title: "Physical Grounding",
+                field: "physical_grounding",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 130,
+                headerSort: true,
+                formatter: colorFormatterGoalInt
+            },
+            {
+                title: "Action Feasibility",
+                field: "action_feasibility",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 120,
+                headerSort: true,
+                formatter: colorFormatterSubgoal
+            },
+            {
+                title: "Prediction Correctness",
+                field: "prediction_correctness",
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 140,
+                headerSort: true,
+                formatter: colorFormatterActionSeq
+            }
         ];
 
-        new Tabulator("#creativitybench-benchmark-main-table", {
-            data: data,
-            layout: "fitColumns",
-            movableColumns: false,
-            groupBy: "group",
-            groupHeader: function (value, count) {
-                if (value === "Average") return "<em>Average</em>";
-                return "<em>" + value + " Models</em>";
-            },
-            rowFormatter: function (row) {
-                if (row.getData().group === "Average") {
-                    row.getElement().classList.add("cb-row-average");
-                }
-            },
-            columnDefaults: { tooltip: true },
-            columns: cb_columns
+        cb_columns.forEach(column => {
+            if (column.field !== "model") {
+                let { min, max } = getColumnMinMax(creativitybench_data, column.field);
+                column.formatterParams = { min, max };
+            }
         });
-    })
-    .catch(function (err) { console.error("CreativityBench table error:", err); });
+
+        var cb_table = new Tabulator("#creativitybench-benchmark-main-table", {
+            data: creativitybench_data,
+            layout: "fitColumns",
+            responsiveLayout: "collapse",
+            responsiveLayoutCollapseStartOpen: false,
+            movableColumns: false,
+            initialSort: [
+                { column: "gold_correct", dir: "desc" },
+            ],
+            columnDefaults: {
+                tooltip: true,
+            },
+            columns: cb_columns.map(column => {
+                if (column.field === "gold_correct") {
+                    return { ...column, sorter: "number" };
+                }
+                return column;
+            })
+        });
+    });
+})
 
