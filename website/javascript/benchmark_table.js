@@ -235,91 +235,85 @@ var colorFormatterFloat4 = function (cell, formatterParams) {
     return "<span style='display:block;width:100%;height:100%;font-size:1.0em;background-color:rgb(" + red + "," + green + "," + blue + ");'>" + display + "</span>";
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('website/data/creativitybench_total_benchmark.json')
-        .then(response => response.json())
-        .then(data => {
-            var getColumnMinMax = (data, field) => {
-                let values = data
-                    .filter(item => item.group !== "Average")
-                    .map(item => item[field])
-                    .filter(val => val !== "-" && val != null)
-                    .map(Number);
-                return { min: Math.min(...values), max: Math.max(...values) };
+fetch('website/data/creativitybench_total_benchmark.json')
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+        var getColumnMinMax = function (field) {
+            var values = data
+                .filter(function (item) { return item.group !== "Average"; })
+                .map(function (item) { return item[field]; })
+                .filter(function (val) { return val !== "-" && val != null; })
+                .map(Number);
+            return { min: Math.min.apply(null, values), max: Math.max.apply(null, values) };
+        };
+
+        var toolUsageEnd   = { r: 162, g: 196, b: 170 };
+        var constraintEnd  = { r: 181, g: 192, b: 208 };
+        var groundingEnd   = { r: 245, g: 232, b: 221 };
+        var feasibilityEnd = { r: 238, g: 211, b: 217 };
+        var predictionEnd  = { r: 204, g: 211, b: 202 };
+
+        var makeCol = function (title, field, endColor) {
+            var minMax = getColumnMinMax(field);
+            return {
+                title: title,
+                field: field,
+                cssClass: "avg-column",
+                hozAlign: "center",
+                minWidth: 110,
+                headerSort: true,
+                sorter: "number",
+                formatter: colorFormatterFloat4,
+                formatterParams: { min: minMax.min, max: minMax.max, startColor: { r: 255, g: 255, b: 255 }, endColor: endColor }
             };
+        };
 
-            var toolUsageEnd   = { r: 162, g: 196, b: 170 };
-            var constraintEnd  = { r: 181, g: 192, b: 208 };
-            var groundingEnd   = { r: 245, g: 232, b: 221 };
-            var feasibilityEnd = { r: 238, g: 211, b: 217 };
-            var predictionEnd  = { r: 204, g: 211, b: 202 };
+        var cb_columns = [
+            {
+                title: "Model",
+                field: "model",
+                cssClass: "avg-column cb-model-col",
+                widthGrow: 1.5,
+                minWidth: 180,
+                headerSort: true
+            },
+            {
+                title: "Tool Usage",
+                columns: [
+                    makeCol("Gold Correct",   "gold_correct",   toolUsageEnd),
+                    makeCol("Entity Correct", "entity_correct", toolUsageEnd)
+                ]
+            },
+            {
+                title: "Constraint Coverage",
+                columns: [
+                    makeCol("Use (Cu)",   "constraint_use",  constraintEnd),
+                    makeCol("Env. (Ce)",  "constraint_env",  constraintEnd),
+                    makeCol("Rcpt. (Cr)", "constraint_rcpt", constraintEnd)
+                ]
+            },
+            makeCol("Physical Grounding",     "physical_grounding",     groundingEnd),
+            makeCol("Action Feasibility",     "action_feasibility",     feasibilityEnd),
+            makeCol("Prediction Correctness", "prediction_correctness", predictionEnd)
+        ];
 
-            var makeCol = function (title, field, endColor) {
-                var { min, max } = getColumnMinMax(data, field);
-                return {
-                    title: title,
-                    field: field,
-                    cssClass: "avg-column",
-                    hozAlign: "center",
-                    minWidth: 110,
-                    headerSort: true,
-                    sorter: "number",
-                    formatter: colorFormatterFloat4,
-                    formatterParams: { min, max, startColor: { r: 255, g: 255, b: 255 }, endColor: endColor }
-                };
-            };
-
-            var cb_columns = [
-                {
-                    title: "Model",
-                    field: "model",
-                    cssClass: "avg-column cb-model-col",
-                    widthGrow: 1.5,
-                    minWidth: 180,
-                    headerSort: true
-                },
-                {
-                    title: "Tool Usage",
-                    columns: [
-                        makeCol("Gold Correct",   "gold_correct",   toolUsageEnd),
-                        makeCol("Entity Correct", "entity_correct", toolUsageEnd)
-                    ]
-                },
-                {
-                    title: "Constraint Coverage",
-                    columns: [
-                        makeCol("Use (C<sub>u</sub>)",   "constraint_use",  constraintEnd),
-                        makeCol("Env. (C<sub>e</sub>)",  "constraint_env",  constraintEnd),
-                        makeCol("Rcpt. (C<sub>r</sub>)", "constraint_rcpt", constraintEnd)
-                    ]
-                },
-                makeCol("Physical<br>Grounding",      "physical_grounding",      groundingEnd),
-                makeCol("Action<br>Feasibility",      "action_feasibility",      feasibilityEnd),
-                makeCol("Prediction<br>Correctness",  "prediction_correctness",  predictionEnd)
-            ];
-
-            var groupOrder = ["Closed-Source", "Open-Source", "Average"];
-
-            new Tabulator("#creativitybench-benchmark-main-table", {
-                data: data,
-                layout: "fitColumns",
-                movableColumns: false,
-                groupBy: "group",
-                groupOrder: function (a, b) {
-                    return groupOrder.indexOf(a) - groupOrder.indexOf(b);
-                },
-                groupHeader: function (value, count) {
-                    if (value === "Average") return "<span class='cb-group-avg'>Average</span>";
-                    return "<span class='cb-group-header'>" + value + " Models</span>";
-                },
-                rowFormatter: function (row) {
-                    if (row.getData().group === "Average") {
-                        row.getElement().classList.add("cb-row-average");
-                    }
-                },
-                columnDefaults: { tooltip: true },
-                columns: cb_columns
-            });
+        new Tabulator("#creativitybench-benchmark-main-table", {
+            data: data,
+            layout: "fitColumns",
+            movableColumns: false,
+            groupBy: "group",
+            groupHeader: function (value, count) {
+                if (value === "Average") return "<em>Average</em>";
+                return "<em>" + value + " Models</em>";
+            },
+            rowFormatter: function (row) {
+                if (row.getData().group === "Average") {
+                    row.getElement().classList.add("cb-row-average");
+                }
+            },
+            columnDefaults: { tooltip: true },
+            columns: cb_columns
         });
-})
+    })
+    .catch(function (err) { console.error("CreativityBench table error:", err); });
 
