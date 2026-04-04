@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formatter: colorFormatterFloat4
             },
             {
-                title: "Use (Cu)",
+                title: "Use Condition",
                 field: "constraint_use",
                 cssClass: "avg-column",
                 hozAlign: "center",
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formatter: colorFormatterSubgoal
             },
             {
-                title: "Env. (Ce)",
+                title: "Env. Condition",
                 field: "constraint_env",
                 cssClass: "avg-column",
                 hozAlign: "center",
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formatter: colorFormatterActionSeq
             },
             {
-                title: "Rcpt. (Cr)",
+                title: "Recipient Condition",
                 field: "constraint_rcpt",
                 cssClass: "avg-column",
                 hozAlign: "center",

@@ -22,16 +22,10 @@ span {
   font-size: 1.15em;
 }
 
-.embodiedbench {
-  font-variant: small-caps;
-  font-weight: bold;
-  color: #5e7154;
-}
-
 .creativitybench {
   font-variant: small-caps;
   font-weight: bold;
-  color: #c85a00;
+  color: #cf6f3d !important;
 }
 
 
