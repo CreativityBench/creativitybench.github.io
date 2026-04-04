@@ -403,9 +403,64 @@
   <section class="section" id="leaderboard-findings" style="padding-top:1.5rem;">
     <div class="container" style="max-width: 85%">
       <h2 class="title is-3" style="text-align:center; margin-bottom:3rem; font-size: 2.3em;">Leaderboard</h2>
-        <div id="creativitybench-benchmark-main-table"></div>
+      <p style="text-align:justify; margin-top:1em;  margin-bottom:1rem; line-height: 1.55; max-width: 95%; font-size: 1.2em; margin: 0 auto; color:rgb(31, 30, 30);">
+        From the metric perspective, current models are better at choosing plausible tools at the entity level but struggle to produce fully correct, physically grounded tool use. Model reasoning is often plausible but fails to account for all conditions required for successful execution.
         <br>
-        <br>
+        From the model perspective, there is a clear split between creative affordance discovery and grounded reasoning quality. Improvements from model scaling alone quickly saturate, indicating that stronger performance requires advances in grounded affordance reasoning rather than size alone.
+      </p>  
+      <div id="creativitybench-benchmark-main-table"></div>
+      <br>
+      <br>
+  <br>
+
+  <!-- Case Study -->
+  <section class="section" id="case-study" style="padding-top:2rem;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3" style="text-align:center; margin-bottom:1rem; font-size: 2.3em;">Takeaway</h2>
+      <br>
+        <div id="results-carousel" class="carousel results-carousel" style="margin-bottom: 2rem;">
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/fig_cluster_grouped_bars.png" alt="" width="75%"/>
+                <img src="website/img/fig_level_heatmap.png" alt="" width="75%"/>
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 4.</b> Model performance drops most clearly on rare, long-tail affordances, showing that commonality remains a major driver of success in grounded creative tool use.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/fig_entity_count_overall_lines.png" alt="" width="75%"/>
+                <img src="website/img/fig_difficulty_scatter.png" alt="" width="75%"/>
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 5.</b> Both the quantity and type of distractors influence model performance. While larger candidate sets consistently increase difficulty, distractors that share similar affordances with the gold object can sometimes help highlight the relevant reasoning space, partially offsetting the distraction effect.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/fig_temperature_grouped_bars_10percent.png" alt="" width="75%" />
+                <img src="website/img/evaluation_mode.png" alt="" width="75%" />
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 6.</b> Increasing sampling temperature does not reliably improve creative tool use. For smaller models in particular, higher temperatures tend to increase hallucinated entities and parts rather than produce more effective affordance exploration, suggesting that this benchmark rewards grounded constraint satisfaction rather than open-ended generative diversity.
+                </p>
+              </div>
+            </div>
+            <div class="box mx-auto my-4" style="max-width: 90%;">
+              <div class="content has-text-centered" style="margin-bottom: 2rem;">
+                <img src="website/img/cluster_size_range__attributes_grounding.png" alt="" width="75%" />
+                <img src="website/img/cluster_size_range__use_condition_covered.png" alt="" width="75%" />
+                <img src="website/img/entity_similarity__attributes_grounding.png" alt="" width="75%" />
+                <img src="website/img/entity_similarity__prediction_correctness.png" alt="" width="75%" />
+                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
+                  <b>Figure 7.</b> Auxiliary metrics reveal a consistent pattern: models handle familiar affordances much better than rare ones, and they benefit from distractors that provide affordance-level cues. Overall, current models still struggle to ground rare, weakly signaled affordances in a physically and conditionally appropriate way.
+                </p>
+              </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
   <br>
   <section class="section" id="overview" style="padding-top:4rem;">
       <div class="container" style="max-width: 95%; font-size: 1.0em; margin: 0 auto; line-height: 1.55;">
@@ -419,7 +474,7 @@
       <figure class="table-figure" style="max-width: 90%; margin: 1em auto 0;">
         <div style="display: flex; gap: 2rem; justify-content: center; align-items: flex-start;">
           <img class="figure-image" src="website/img/meta_primary_category_pie.png" alt="Primary Failure Category." style="flex: 1; max-width: 45%; width: 100%;" />
-          <img class="figure-image" src="website/img/meta_primary_category_pie.png" alt="Frequency of Categories Appearing as Contributing Factors." style="flex: 1; max-width: 45%; width: 100%;" />
+          <img class="figure-image" src="website/img/meta_all_category_bar.png" alt="Frequency of Categories Appearing as Contributing Factors." style="flex: 1; max-width: 45%; width: 100%;" />
         </div>
         <figcaption class="figure-caption" style="text-align: center; font-size: 1.1em; margin-top: 0.5em;">
           <b>Figure 3.</b> Attribution Analysis. Most failures come from weak physical grounding: models often over-imagine what objects can do or choose tools whose real properties do not support the intended use. Practicality and safety matter too, but far fewer errors are simply suboptimal alternatives rather than genuinely mismatched solutions.
@@ -428,81 +483,7 @@
     </div>
   </section>
 
-  <!-- Case Study -->
-  <section class="section" id="case-study" style="padding-top:2rem;">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3" style="text-align:center; margin-bottom:1rem; font-size: 2.3em;">Case Study</h2>
-      <br>
-      <!-- Success Carousel -->
-        <h3 class="title is-4" style="text-align:center; margin-bottom:-0.1rem; font-size: 1.7em;">Success Examples</h3>
-        <div id="results-carousel" class="carousel results-carousel" style="margin-bottom: 2rem;">
-            <div class="box mx-auto my-4" style="max-width: 90%;">
-              <div class="content has-text-centered" style="margin-bottom: 2rem;">
-                <img src="website/img/success_alfred_claude.png" alt="" width="75%"/>
-                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
-                  <b>Figure 4.</b> Planning example of Claude-3.5-Sonnet in EB-ALFRED.
-                </p>
-              </div>
-            </div>
-            <div class="box mx-auto my-4" style="max-width: 90%;">
-              <div class="content has-text-centered" style="margin-bottom: 2rem;">
-                <img src="website/img/success_habitat_internvl.png" alt="" width="75%"/>
-                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
-                  <b>Figure 5.</b> Planning example in EB-Habitat for InternVL2.5-78B.
-                </p>
-              </div>
-            </div>
-            <div class="box mx-auto my-4" style="max-width: 90%;">
-              <div class="content has-text-centered" style="margin-bottom: 2rem;">
-                <img src="website/img/success_nav_gpt4o.png" alt="" width="75%" />
-                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
-                  <b>Figure 6.</b> Planning example of GPT-4o in EB-Navigation.
-                </p>
-              </div>
-            </div>
-            <div class="box mx-auto my-4" style="max-width: 90%;">
-              <div class="content has-text-centered" style="margin-bottom: 2rem;">
-                <img src="website/img/success_mani_gemini.png" alt="" width="75%" />
-                <p class="image-subtitle" style="font-size: 1.1em; margin-top: 1rem;">
-                  <b>Figure 7.</b> Planning example of Gemini-1.5-pro in EB-Manipulation.
-                </p>
-              </div>
-            </div>
-        </div>
-
-        <!-- Failure Carousel -->
-        <br>
-        <h3 class="title is-4" style="text-align:center; margin-top: 2rem; margin-bottom:-0.1rem; font-size: 1.7em;">Failure Examples</h3>
-        <div id="results-carousel" class="carousel results-carousel" data-autoplay="true" data-pagination="false">
-          <div class="box mx-auto my-4" style="max-width: 90%;">
-            <div class="content has-text-centered" style="margin-bottom: 2rem;">
-              <img src="website/img/planning_error_alfred.png" alt="" width="70%"/>
-              <p class="image-subtitle" style="font-size: 1.1em; margin-top: 2rem; max-width: 70%; margin: auto;">
-                <b>Figure 8.</b> Planning Error Example in EB-ALFRED: The agent was supposed to locate "Book_2" by the 7th action but instead continued
-                interacting with the first book.
-              </p>
-            </div>
-          </div>
-          <div class="box mx-auto my-4" style="max-width: 90%;">
-            <div class="content has-text-centered" style="margin-bottom: 2rem;">
-              <img src="website/img/perception_error_mani.png" alt="" width="70%" style="margin-bottom: 1rem;"/>
-              <p class="image-subtitle" style="font-size: 1.1em; max-width: 70%; margin: auto;">
-                <b>Figure 9.</b> Perception Error Example in EB-Manipulation: the agent erroneously observed the color of the object.
-              </p>
-            </div>
-          </div>
-          <div class="box mx-auto my-4" style="max-width: 90%;">
-            <div class="content has-text-centered" style="margin-bottom: 2rem;">
-              <img src="website/img/reasoning_error_nav.png" alt="" width="70%"  style="margin-bottom: 1rem;"/>
-              <p class="image-subtitle" style="font-size: 1.1em; max-width: 70%; margin: auto;">
-                <b>Figure 10.</b> Reasoning Error Example in EB-Navigation: the agent recognized it was blocked by the countertop but failed to attempt
-                navigating around it.
-              </p>
-            </div>
-          </div>
-        </div>
-    </div>
-  </section>
+  
 
   <!-- BibTeX Section -->
   <section class="section" id="BibTeX" style="padding-top:1.5rem;">
