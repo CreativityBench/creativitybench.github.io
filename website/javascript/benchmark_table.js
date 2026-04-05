@@ -335,13 +335,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        var cb_table = new Tabulator("#creativitybench-benchmark-main-table", {
+        new Tabulator("#creativitybench-benchmark-main-table", {
             data: creativitybench_data.filter(row => row.model !== "Average"),
             layout: "fitColumns",
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
             movableColumns: false,
-            initialSort: [{ column: "order", dir: "asc" }],
+            initialSort: [{ column: "gold_correct", dir: "desc" }],
             columnDefaults: {
                 tooltip: true,
                 headerSort: false,
