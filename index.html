@@ -404,6 +404,19 @@
         </div>
     </div>
   </section>
+  <script>
+    window.addEventListener('load', function () {
+      var boxes = document.querySelectorAll('#results-carousel .box');
+      var maxH = 0;
+      boxes.forEach(function (b) { maxH = Math.max(maxH, b.offsetHeight); });
+      boxes.forEach(function (b) {
+        b.style.height = maxH + 'px';
+        b.style.display = 'flex';
+        b.style.flexDirection = 'column';
+        b.style.justifyContent = 'center';
+      });
+    });
+  </script>
 
   <section class="section" id="overview" style="padding-top:1.5rem;">
       <div class="container" style="max-width: 95%; font-size: 1.0em; margin: 0 auto; line-height: 1.55;">
